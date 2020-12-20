@@ -1,0 +1,20 @@
+.textarea-block {
+    position: relative;
+    margin-top: 3rem;
+    width: 95%;
+}
+
+.textarea-block::after {
+    width: 103%;
+    height: 2px;
+    content: '';
+    background: #313131;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 4px;
+}
+
+.textarea-block:focus-within::after {
+    height: 3px;
+}
