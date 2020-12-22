@@ -1,20 +1,25 @@
+import React, { useContext } from 'react';
 import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 
 import Receipt from './pages/Receipt';
 import CreateReceipt from './pages/CreateReceipt';
+import Login from './pages/Login';
 
-import { useSelector } from 'react-redux';
+import StoreProvider from './components/Store/Provider';
+import StoreContext from './components/Store/Context';
 
-function PrivateRoute({ component: Component, ...rest }) {
-    const { isAuthenticated } = useSelector(state => state.auth)
+const PrivateRoute = ({ component: Component, ...rest }) => {
+    const { token } = useContext(StoreContext);
 
-    console.log(isAuthenticated)
+    console.log(token)
 
     return (
-        <Route 
+        <Route
             {...rest}
-            render={(props) => 
-                isAuthenticated ? (<Component {...props} />) : (<Redirect to={{ pathname: '/', state: { from: props.location } }}/>) }
+            render={() => token
+                ? <Component {...rest} />
+                : <Redirect to="/login" />
+            }
         />
     )
 }
@@ -22,8 +27,11 @@ function PrivateRoute({ component: Component, ...rest }) {
 function Routes() {
     return (
         <BrowserRouter>
-            <Route path="/" exact component={Receipt} />
-            <Route path="/create-receipt" exact component={CreateReceipt} />
+            <StoreProvider>
+                <Route path="/login" component={Login} />
+                <PrivateRoute path="/" exact component={Receipt} />
+                <PrivateRoute path="/create-receipt" exact component={CreateReceipt} />
+            </StoreProvider>
         </BrowserRouter>
     )
 }

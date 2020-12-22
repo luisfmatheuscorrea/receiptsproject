@@ -71,7 +71,7 @@ function Receipt() {
     const handleOpen = () => {
         loadDepartment()
             .then(departamentos => {
-                if(department.includes('Junta Geral')) {
+                if(department?.includes('Junta Geral')) {
                     setJunta(true);
                 }
             })
@@ -113,10 +113,13 @@ function Receipt() {
     // const loadTotal = () => {
     //     setTotal(receipts.length);
     // }
+
+    useEffect(() => {
+        setJunta(true);
+    }, [])
     
     useEffect(() => {
         loadReceipts();
-        // loadTotal();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -134,7 +137,7 @@ function Receipt() {
                     {receipts.map( receipt => {return <CardItem key={receipt.numeration} receipt={receipt} handleOpen={handleOpen} handleActiveReceipt={handleActiveReceipt} />; })}
                 </GridCard>
             </Container>
-            <Modal
+            {department && <Modal
                 open={open}
                 onClose={handleClose}
                 className={classes.modal}
@@ -195,7 +198,7 @@ function Receipt() {
                         <RowCard3>
                             <CheckBoxGrid>
                                 <CheckBox>
-                                    <input type="checkbox" id="junta" name="junta" checked={junta} />
+                                    <input type="checkbox" id="junta" name="junta" checked={department?.includes('Junta Geral')} />
                                     <label for="junta">Junta Geral</label>
                                 </CheckBox>
                                 {/* <CheckBox>
@@ -344,7 +347,7 @@ function Receipt() {
                     </ReceiptPaper>
                     </div>
                 </Paper>
-            </Modal>
+            </Modal>}
         </div>
     )
 }

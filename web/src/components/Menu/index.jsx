@@ -1,3 +1,6 @@
+import React, { useState, useContext } from 'react';
+import StoreContext from '../Store/Context';
+
 import './styles.css';
 
 import Logo from '../../assets/logo-uiecb-cinza.png';
@@ -7,7 +10,7 @@ import { Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, makeStyles
 // import MailIcon from '@material-ui/icons/Mail';
 import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
-import { React, useState } from 'react';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { useHistory } from 'react-router-dom';
 
 const drawerWidth = 250;
@@ -61,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Menu() {
-
+    const { setToken } = useContext(StoreContext);
     const classes = useStyles();
     const theme = useTheme();
     const [open, setOpen] = useState(false);
@@ -82,6 +85,11 @@ function Menu() {
     const goToReceipt = () => {
       history.push('/');
     };
+
+    const logoutExit = () => {
+      setToken(null);
+      history.push('/login');
+    }
 
     return (
         <div className={classes.root}>
@@ -113,6 +121,13 @@ function Menu() {
                       <ListItemIcon> <LibraryAddIcon className={classes.icon} htmlColor='#353535' /> </ListItemIcon>
                       <ListItemText primary="Criar Recibo" />
                     </ListItem>
+                </List>
+                <Divider />
+                <List>
+                  <ListItem button key="receipts" onClick={logoutExit} >
+                    <ListItemIcon> <ExitToAppIcon className={classes.icon} htmlColor='#353535' /> </ListItemIcon>
+                    <ListItemText primary="Sair" />
+                  </ListItem>
                 </List>
                 {/* <Divider />
                 <List>

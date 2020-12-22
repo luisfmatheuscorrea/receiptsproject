@@ -40,6 +40,11 @@ export const Container = styled.div`
     transition: 400ms;
 `;
 
+export const ContainerLogin = styled(Container)`
+    justify-content: center;
+    align-items: center;
+`;
+
 export const Form = styled.form`
     background-color: #FAFAFA;
 
@@ -245,6 +250,14 @@ export const Paper = styled.div`
     padding: 20px 40px;
     border-radius: 5px;
     justify-content: center;
+`;
+
+export const PaperLogin = styled(Paper)`
+    border-radius: 30px;
+    padding: 20px 40px;
+    align-items: center;
+    box-shadow: 2px 2px 10px #313131;
+    text-align: center;
 `;
 
 export const ReceiptPaper = styled.div`
