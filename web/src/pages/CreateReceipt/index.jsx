@@ -42,10 +42,6 @@ function CreateReceipt() {
         goToReceipts();
     }
 
-    const formatDate = () => {
-        setDate(date.split('-').reverse().join('/'));
-    }
-
     const errorAlert = () => {
         setTextAlert("Algo deu errado!");
         setTypeAlert("error");
@@ -71,7 +67,6 @@ function CreateReceipt() {
     }
 
     const handleCreateReceipt = (e) => {
-        formatDate();
         createReceipt(e);
     }
 
@@ -174,10 +169,9 @@ function CreateReceipt() {
                         label="Data"
                         type="date"
                         required={required}
-                        value={date}
-                        onChange={(e) => { setDate(e.target.value) }}
+                        onChange={(e) => { setDate(e.target.value.split('-').reverse().join('/')) }}
                     />
-                    <ButtonOk type="button" onClick={formatDate}>OK</ButtonOk>
+                    {/* <ButtonOk type="button" onClick={formatDate}>OK</ButtonOk> */}
                 </ColumnSpace>
                 <ColumnReceipt3>
                     <TitleR>Departamentos</TitleR>
