@@ -68,7 +68,7 @@ export const InputG = styled.input`
     border-radius: 0.8rem;
     border: none;
     outline: 0;
-    background: none;
+    background: ${props => props.required ? '#D4656A' : 'none'};
     
     font: 1.6rem Montserrat;
 `;
@@ -95,16 +95,22 @@ export const ButtonGray = styled.button`
     }
 `;
 
+export const ButtonOk = styled(ButtonGray)`
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 1.2rem;
+`;
+
 export const TextareaG = styled.textarea`
     width: 100%;
     height: 10rem;
     min-height: 8rem;
     margin-top: 0.3rem;
-    border: 2px solid #313131;
+    border: ${props => props.required ? '2px solid #D4656A' : '2px solid #313131'};
     outline: 0;
     resize: vertical;
     padding: 1.2rem 1.6rem;
-    background: none;
+    background: ${props => props.required ? '#D4656A' : 'none'};
 
     font: 1.6rem Montserrat;
 `;
@@ -115,6 +121,11 @@ export const LabelInput = styled.label`
 
 export const TitleP = styled.h1`
     font: 3rem Montserrat;
+    font-weight: 500;
+`;
+
+export const TitleT = styled.h1`
+    font: 2rem Montserrat;
     font-weight: 500;
 `;
 
@@ -141,6 +152,7 @@ export const Strong = styled.strong`
 `;
 
 export const P = styled.p`
+    display: ${props => props.hide ? 'none' : 'flex'};
     font-size: 1.2rem;
     margin: 5px 0 0 0;
 `;
@@ -148,6 +160,13 @@ export const P = styled.p`
 export const PCard = styled(P)`
     margin-bottom: 0;
     margin: 0 0 0 0;
+`;
+
+export const RowConfirm = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const RowCard = styled.div`
@@ -228,6 +247,11 @@ export const IconButton = styled.img`
     margin-right: 0.8rem;
 `;
 
+export const IconButton2 = styled.img`
+    width: 20px;
+    height: 20px;
+`;
+
 export const Card = styled.div`
     box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
     margin: 1.2rem 10px 0 10px;
@@ -268,6 +292,29 @@ export const ReceiptPaper = styled.div`
     max-width: 757px;
 `;
 
+export const ButtonConfirm = styled.div`
+    width: fit-content;
+    padding: 15px 70px;
+    display: flex;
+    align-items: center;
+    font: 1.2rem Montserrat;
+    border-radius: 10px;
+
+    transition: 400ms ease;
+
+    cursor: pointer;
+
+    margin-bottom: 30px;
+
+    &:hover {
+        background-color: #dadada;
+    }
+
+    & + & {
+        margin-left: 20px;
+    }
+`;
+
 export const ButtonSave = styled.div`
     width: fit-content;
     padding: 10px 15px;
@@ -282,6 +329,23 @@ export const ButtonSave = styled.div`
 
     &:hover {
         background-color: #dadada;
+    }
+`;
+
+export const ButtonDelete = styled.div`
+    width: fit-content;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    font: 1.2rem Montserrat;
+    border-radius: 10px;
+
+    transition: 400ms ease;
+
+    cursor: pointer;
+
+    &:hover {
+        background-color: #D4656A95;
     }
 `;
 
@@ -307,6 +371,11 @@ export const P2 = styled.p`
 
 export const P3 = styled.p`
     font-size: 16px;
+    margin: 0;
+`;
+
+export const P5 = styled.p`
+    font-size: 12px;
     margin: 0;
 `;
 

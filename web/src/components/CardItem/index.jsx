@@ -1,12 +1,12 @@
 import './styles.css';
 
-import { P, PCard, RowCard, Strong, TitleR, Card } from '../../styles';
-import { makeStyles } from '@material-ui/core';
+import { RowCard, P, Strong, TitleR, PCard, Card } from '../../styles';
+import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
     pagination: {
         display: 'flex',
-        marginTop: '1.2rem',
+        backgroundColor: '#fafafa',
     },
     modal: {
         display: 'flex',
@@ -25,45 +25,51 @@ function CardItem( receipt, handleOpen, handleActiveReceipt ) {
     const classes = useStyles();
 
     const openReceipt = receipt.handleOpen;
-    const setActiveReceipt = receipt.handleActiveReceipt;
-    const info = receipt.receipt;
 
-    const activeReceipt = () => {
-        setActiveReceipt(info);
+    const info = receipt.receipt;
+    const setActiveReceipt = receipt.handleActiveReceipt;
+
+    const department = info.departments;
+
+    const toggleReceipt = () => {
+        setActiveReceipt(info, department);
         openReceipt();
     }
 
     return (
-        <Card className={classes.card} onClick={activeReceipt}>
-            <RowCard>
-                <TitleR>
-                    Recibo de <Strong>{info.sender}</Strong> Nº{info.numeration}
-                </TitleR>
-                <PCard>
-                    Data: <Strong>{info.date}</Strong>
-                </PCard>
-            </RowCard>
-            <RowCard>
-                <div className="text">
-                    <P>Valor: {Intl.NumberFormat('pt-BR', { 
-                        style: 'currency', 
-                        currency: 'BRL' 
-                    }).format(info.value)}</P>
-                </div>
-                <div className="text">
-                    <P>Crédito: {Intl.NumberFormat('pt-BR', { 
-                        style: 'currency', 
-                        currency: 'BRL' 
-                    }).format(info.credit)}</P>
-                </div>
-                <div className="text">
-                    <P>Débito: {Intl.NumberFormat('pt-BR', { 
-                        style: 'currency', 
-                        currency: 'BRL' 
-                    }).format(info.debit)}</P>
-                </div>
-            </RowCard>
-        </Card>
+        <div className="all">
+            <Card className={classes.card} onClick={toggleReceipt}>
+                <RowCard>
+                    <TitleR>
+                        Recibo de <Strong>{info.sender}</Strong> Nº{info.numeration}
+                    </TitleR>
+                    <PCard>
+                        Data: <Strong>{info.date}</Strong>
+                    </PCard>
+                </RowCard>
+                <RowCard>
+                    <div className="text">
+                        <P>Valor: {Intl.NumberFormat('pt-BR', { 
+                            style: 'currency', 
+                            currency: 'BRL' 
+                        }).format(info.value)}</P>
+                    </div>
+                    <div className="text">
+                        <P>Crédito: {Intl.NumberFormat('pt-BR', { 
+                            style: 'currency', 
+                            currency: 'BRL' 
+                        }).format(info.credit)}</P>
+                    </div>
+                    <div className="text">
+                        <P>Débito: {Intl.NumberFormat('pt-BR', { 
+                            style: 'currency', 
+                            currency: 'BRL' 
+                        }).format(info.debit)}</P>
+                    </div>
+                </RowCard>
+                <P hide>{department}</P>
+            </Card>
+        </div>
 )}
 
 export default CardItem;

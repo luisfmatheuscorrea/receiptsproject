@@ -3,7 +3,7 @@ import { React, useState } from 'react';
 import './styles.css';
 
 import Menu from '../../components/Menu';
-import { ButtonGray, ColumnSpace, ColumnTotal, Form, GridDepartments, LabelInput, TitleP, TitleR, ColumnReceipt3 } from '../../styles';
+import { ButtonGray, ColumnSpace, ColumnTotal, Form, GridDepartments, LabelInput, TitleP, TitleR, ColumnReceipt3, RowCard, ButtonOk } from '../../styles';
 import Input from '../../components/Input';
 import Textarea from '../../components/Textarea';
 import items from '../../services/items.json';
@@ -20,14 +20,15 @@ function CreateReceipt() {
     const [debit, setDebit] = useState();
     const [credit, setCredit] = useState();
     const [referring, setReferring] = useState('');
-    const [departments, setDepartments] = useState(['']);
+    const [departments, setDepartments] = useState([]);
     const [observation, setObservation] = useState('');
     const [date, setDate] = useState(['']);
     const [typeAlert, setTypeAlert] = useState("");
     const [textAlert, setTextAlert] = useState("");
     const [openAlert, setOpenAlert] = useState(false);
-    const [selectedItems, setSelectedItems] = useState([]);
     const [openOthers, setOpenOthers] = useState(false);
+    const [required, setRequired] = useState(false);
+    const departmentString = departments.toString();
     const history = useHistory();
 
     const handleAlert = () => {
@@ -41,7 +42,7 @@ function CreateReceipt() {
         goToReceipts();
     }
 
-    function formatDate() {
+    const formatDate = () => {
         setDate(date.split('-').reverse().join('/'));
     }
 
@@ -69,11 +70,13 @@ function CreateReceipt() {
         }, 3000);
     }
 
-    function handleCreateReceipt(e) {
-        e.preventDefault();
-
-        setDepartments(selectedItems);
+    const handleCreateReceipt = (e) => {
         formatDate();
+        createReceipt(e);
+    }
+
+    function createReceipt(e) {
+        e.preventDefault();
 
         api.post('receipts', {
             sender,
@@ -89,22 +92,23 @@ function CreateReceipt() {
             addAlert();
         }).catch(() => {
             errorAlert();
+            setRequired(true);
         });
     }
 
     function handleSelectItem( title ) {
-        const alreadySelected = selectedItems.findIndex(item => item === title);
+        const alreadySelected = departments.findIndex(item => item === title);
 
         if (alreadySelected >= 0) {
-            const filteredItems = selectedItems.filter(item => item !== title);
+            const filteredItems = departments.filter(item => item !== title);
 
-            setSelectedItems(filteredItems);
+            setDepartments(filteredItems);
         } else {
-            setSelectedItems([ ...selectedItems, title ]);
+            setDepartments([ ...departments, title ]);
         }
 
-        setDepartments(selectedItems);
     }
+    console.log(departments)
 
     return (
         <div className="all">
@@ -122,7 +126,7 @@ function CreateReceipt() {
                     <Input 
                         name="sender" 
                         label="Recebemos da(o)"
-                        required="required"
+                        required={required}
                         value={sender} 
                         onChange={(e) => { setSender(e.target.value) }}
                     />
@@ -138,13 +142,14 @@ function CreateReceipt() {
                         name="value" 
                         label="Valor"
                         type="number"
-                        required="required"
+                        required={required}
                         value={value} 
                         onChange={(e) => { setValue(e.target.value) }}
                     />
                     <Input 
                         name="referring"
                         label="Valor Referente à"
+                        required={required}
                         value={referring}
                         onChange={(e) => { setReferring(e.target.value) }}
                     />
@@ -168,9 +173,11 @@ function CreateReceipt() {
                         name="date"
                         label="Data"
                         type="date"
+                        required={required}
                         value={date}
                         onChange={(e) => { setDate(e.target.value) }}
                     />
+                    <ButtonOk type="button" onClick={formatDate}>OK</ButtonOk>
                 </ColumnSpace>
                 <ColumnReceipt3>
                     <TitleR>Departamentos</TitleR>
@@ -180,7 +187,7 @@ function CreateReceipt() {
                             <li 
                                 key={item.id} 
                                 onClick={() => handleSelectItem(item.title)}
-                                className={selectedItems.includes(item.title) ? 'selected' : ''}
+                                className={departments.includes(item.title) ? 'selected' : ''}
                             >
                                 <span>{item.title}</span>
                             </li>
@@ -197,7 +204,7 @@ function CreateReceipt() {
                                 // value={other}
                                 onKeyPress={(e) => { 
                                     if (e.key === "Enter") {
-                                        setSelectedItems([ ...selectedItems, e.target.value]) }}
+                                        setDepartments([ ...departments, e.target.value]) }}
                                     }
                             />
                     </GridDepartments>
@@ -206,7 +213,9 @@ function CreateReceipt() {
                     <Textarea 
                         name="observation"
                         label="Observações"
+                        required={required}
                         value={observation}
+                        onFocus={() => setDepartments(departmentString)}
                         onChange={(e) => { setObservation(e.target.value) }}
                     />
                 </ColumnSpace>

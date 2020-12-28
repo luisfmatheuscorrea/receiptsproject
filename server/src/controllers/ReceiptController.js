@@ -10,9 +10,14 @@ module.exports = {
     const receipts = await connection('receipts')
       .limit(8)
       .offset((page - 1) * 8)
-      .select('receipts.*');
+      .select('receipts.*')
+      .orderBy('numeration', 'desc')
+      .modify(function(queryBuilder) {
+        if (request.query.senderFilter !== "") {
+          queryBuilder.where("sender", "like", `%${request.query.senderFilter}%`)
+        }
+      })
 
-    response.header('X-Total-Count', count['count(*)']);
 
     return response.json(receipts);
   },
@@ -34,7 +39,7 @@ module.exports = {
       observation,
     })
 
-    return response.json('Criado');
+    return response.json(departments);
   },
 
   async delete(request, response) {
