@@ -1,7 +1,7 @@
-import { React, useRef, useState } from 'react';
+import { React, useContext, useEffect, useRef, useState } from 'react';
 import './styles.css';
 
-import { RowCard, Paper, P, P5, ButtonSave, RowCard2, P3Italic, RowCard4, RowCard3, ReceiptPaper, Logo, ColumnReceipt, H2, H4, P2, P3, P4, H1, ColumnReceipt2, CheckBox, CheckBoxGrid, ButtonDelete } from '../../styles';
+import { RowCard, Paper, P, RowCard5, P3Space, P5, ColumnReceipt4, ButtonSave, RowCard2, P3Italic, RowCard4, RowCard3, ReceiptPaper, Logo, ColumnReceipt, H2, H4, P2, P3, P4, H1, ColumnReceipt2, CheckBox, CheckBoxGrid, ButtonDelete } from '../../styles';
 import { makeStyles, Modal } from '@material-ui/core'
 import LocalPrintshopIcon from '@material-ui/icons/LocalPrintshop';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -9,6 +9,7 @@ import { useReactToPrint } from 'react-to-print';
 import LogoUIECB from '../../assets/logo-uiecb-preta.png';
 import Number from 'numero-por-extenso';
 import { Pagination } from '@material-ui/lab';
+import StoreContext from '../../components/Store/Context';
 
 const useStyles = makeStyles((theme) => ({
     pagination: {
@@ -35,9 +36,11 @@ function ModalC( items, open, setOpenDelete, handleClose, departmentos ) {
     const componentRef = useRef();
     const numero = Number;
     const [countReceipts, setCountReceipts] = useState(1);
+    const [admin, setAdmin] = useState(false);
     const department = items.departmentos;
     const setOpening = items.setOpenDelete;
     const item = items.items;
+    const { token } = useContext(StoreContext);
 
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
@@ -47,6 +50,12 @@ function ModalC( items, open, setOpenDelete, handleClose, departmentos ) {
         handlePrint();
     };
 
+    function handleAdmin() {
+        if(token === process.env.REACT_APP_USER_ADMIN_TOKEN) {
+            setAdmin(true);
+        }
+    }
+
     const handleCountReceipts = (event, value) => {
         setCountReceipts(value);
         if(value === 2) {
@@ -55,6 +64,11 @@ function ModalC( items, open, setOpenDelete, handleClose, departmentos ) {
             setHide(true);
         }
     }
+
+    useEffect(() => {
+        handleAdmin();
+        // eslint-disable-next-line
+    }, [])
 
     return (
         <div className="all">
@@ -72,7 +86,7 @@ function ModalC( items, open, setOpenDelete, handleClose, departmentos ) {
                             SALVAR OU IMPRIMIR
                             <LocalPrintshopIcon className={classes.icon} />
                         </ButtonSave>
-                        <ButtonDelete onClick={setOpening}>
+                        <ButtonDelete admin={admin} onClick={setOpening}>
                             DELETAR
                             <DeleteIcon className={classes.icon} />
                         </ButtonDelete>
@@ -126,7 +140,7 @@ function ModalC( items, open, setOpenDelete, handleClose, departmentos ) {
                             <H2>Departamentos:</H2>
                             <P3>Rio de Janeiro, {item.date}</P3>
                         </RowCard3>
-                        <RowCard3>
+                        <RowCard5>
                             <CheckBoxGrid>
                                 <CheckBox>
                                     <input type="checkbox" id="junta" name="junta" checked={department?.includes('Junta Geral')} />
@@ -169,11 +183,13 @@ function ModalC( items, open, setOpenDelete, handleClose, departmentos ) {
                                     <label for="confeuhec">CONFEUHEC</label>
                                 </CheckBox>
                             </CheckBoxGrid>
-                            <ColumnReceipt>
+                            <ColumnReceipt4>
                                 <P3>__________________________________________</P3>
                                 <P3Italic>Pelo Tesoureiro</P3Italic>
-                            </ColumnReceipt>
-                        </RowCard3>
+                                <P3Space>__________________________________________</P3Space>
+                                <P3Italic>Feito Por</P3Italic>
+                            </ColumnReceipt4>
+                        </RowCard5>
                         <RowCard4>
                             <H2>OBS.: </H2>
                             <P3>{item.observation}</P3>
@@ -224,7 +240,7 @@ function ModalC( items, open, setOpenDelete, handleClose, departmentos ) {
                             <H2>Departamentos:</H2>
                             <P3>Rio de Janeiro, {item.date}</P3>
                         </RowCard3>
-                        <RowCard3>
+                        <RowCard5>
                             <CheckBoxGrid>
                                 <CheckBox>
                                     <input type="checkbox" id="junta" name="junta" checked={department?.includes('Junta Geral')} />
@@ -267,11 +283,13 @@ function ModalC( items, open, setOpenDelete, handleClose, departmentos ) {
                                     <label for="confeuhec">CONFEUHEC</label>
                                 </CheckBox>
                             </CheckBoxGrid>
-                            <ColumnReceipt>
+                            <ColumnReceipt4>
                                 <P3>__________________________________________</P3>
                                 <P3Italic>Pelo Tesoureiro</P3Italic>
-                            </ColumnReceipt>
-                        </RowCard3>
+                                <P3Space>__________________________________________</P3Space>
+                                <P3Italic>Feito Por</P3Italic>
+                            </ColumnReceipt4>
+                        </RowCard5>
                         <RowCard4>
                             <H2>OBS.: </H2>
                             <P3>{item.observation}</P3>
