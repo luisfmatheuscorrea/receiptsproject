@@ -206,6 +206,11 @@ export const RowCard4 = styled(RowCard)`
     align-items: normal;
 `;
 
+export const RowCard5 = styled(RowCard)`
+    margin-top: 5px;
+    align-items: flex-end;
+`;
+
 export const ColumnReceipt = styled.div`
     display: flex;
     flex-direction: column;
@@ -222,6 +227,11 @@ export const ColumnReceipt2 = styled(ColumnReceipt)`
 export const ColumnReceipt3 = styled(ColumnReceipt2)`
     margin-top: 2.5rem;
     margin-bottom: -2.5rem;
+`;
+
+export const ColumnReceipt4 = styled(ColumnReceipt)`
+    text-align: center;
+    align-items: center;
 `;
 
 export const Logo = styled.img`
@@ -335,7 +345,7 @@ export const ButtonSave = styled.div`
 export const ButtonDelete = styled.div`
     width: fit-content;
     padding: 10px 15px;
-    display: flex;
+    display: ${props => props.admin ? 'flex' : 'none'};
     align-items: center;
     font: 1.2rem Montserrat;
     border-radius: 10px;
@@ -372,6 +382,11 @@ export const P2 = styled.p`
 export const P3 = styled.p`
     font-size: 16px;
     margin: 0;
+`;
+
+export const P3Space = styled.p`
+    font-size: 16px;
+    margin: 20px 0 0 0;
 `;
 
 export const P5 = styled.p`
