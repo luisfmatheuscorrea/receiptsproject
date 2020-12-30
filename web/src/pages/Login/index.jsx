@@ -14,6 +14,9 @@ function login({ user, password }) {
     if (user === `uiecb` && password === process.env.REACT_APP_USER_PASSWORD) {
       return { token: '1234' };
     }
+    if (user === `uiecb@admin` && password === process.env.REACT_APP_USER_ADMIN_PASSWORD) {
+        return { token: process.env.REACT_APP_USER_ADMIN_TOKEN };
+    }
     return { error: 'Usuário ou senha inválido' };
 }
 
