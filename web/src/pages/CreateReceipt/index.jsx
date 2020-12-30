@@ -187,6 +187,7 @@ function CreateReceipt() {
                             </li>
                         ))}
                             <li
+                                className={openOthers ? 'visible' : 'hide'}
                                 onClick={handleOpenOthers}
                             >
                                 <span>Outros</span>
